@@ -816,7 +816,7 @@ async function sendEmail(env, to, code) {
     const { EmailMessage } = await import('cloudflare:email');
     const from = 'noreply@yourdomain.com'; // Update to your verified sender domain
     const subject = 'Your GDFinder Verification Code';
-    const body = `Your verification code is: ${code}\n\nThis code expires in 10 minutes.`;
+    const body = `Your verification code is: ${code.slice(0, 3)}-${code.slice(3, 6)}-${code.slice(6, 9)}\n\nThis code expires in 10 minutes.`;
 
     const messageId = `<${crypto.randomUUID()}@gdfinder>`;
     const raw = [
@@ -962,10 +962,10 @@ export default {
             try {
                 const body = await request.json().catch(() => ({}));
                 const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
-                const code = typeof body.code === 'string' ? body.code.trim() : '';
+                const raw_code = typeof body.code === 'string' ? body.code.trim() : '';
+                const code = raw_code.replace(/\D/g, ''); // Remove non-digits
 
                 if (!EMAIL_REGEX.test(email)) return jsonError('Invalid email address.');
-                if (!/^\d{9}$/.test(code)) return jsonError('Invalid code format.');
 
                 const otpRow = await env.DB.prepare('SELECT * FROM otps WHERE email = ?').bind(email).first();
                 if (!otpRow) return jsonError('No verification code was requested for this email.');
@@ -1041,9 +1041,9 @@ export default {
             try {
                 const data = await request.json().catch(() => ({}));
                 const { sessionId, name, listingType, bio, availability, city, countryCode, categories, languages,
-                        turnaroundDays, aiLevel, priceRange, pricingStructure, preferredClient,
-                        emailShown, phoneNumber, phoneNumberVisible,
-                        website, instagram, dribbble, behance, bluesky, twitter, facebook, youtube } = data;
+                    turnaroundDays, aiLevel, priceRange, pricingStructure, preferredClient,
+                    emailShown, phoneNumber, phoneNumberVisible,
+                    website, instagram, dribbble, behance, bluesky, twitter, facebook, youtube } = data;
 
                 if (typeof sessionId !== 'string' || !sessionId) return jsonError('Missing session.');
                 const challengeHash = await hashValue(sessionId);
@@ -1134,9 +1134,9 @@ export default {
                 const designerId = putMatch[1];
                 const data = await request.json().catch(() => ({}));
                 const { sessionId, name, listingType, bio, availability, city, countryCode, categories, languages,
-                        turnaroundDays, aiLevel, priceRange, pricingStructure, preferredClient,
-                        emailShown, phoneNumber, phoneNumberVisible,
-                        website, instagram, dribbble, behance, bluesky, twitter, facebook, youtube } = data;
+                    turnaroundDays, aiLevel, priceRange, pricingStructure, preferredClient,
+                    emailShown, phoneNumber, phoneNumberVisible,
+                    website, instagram, dribbble, behance, bluesky, twitter, facebook, youtube } = data;
 
                 if (typeof sessionId !== 'string' || !sessionId) return jsonError('Missing session.');
 

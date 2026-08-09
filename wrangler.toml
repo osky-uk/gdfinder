@@ -1,0 +1,14 @@
+name = "gdfinder"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "gdfinder"
+database_id = "5e6f9939-2a18-4858-b40d-4b255d591b6d" # Replace after: wrangler d1 create gdfinder
+
+[[send_email]]
+name = "EMAIL"
+
+# Non-secret vars go here.
+[vars]

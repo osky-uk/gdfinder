@@ -6,7 +6,7 @@ gdfinder is a directory for finding freelance graphic designers. It is built as 
 
 ### Language & style
 - British English spelling (e.g. "colour")
-- Never use em dashes, use a hyphen instead
+- Never use em dashes, use a hyphen "-" instead
 - Use the Oxford comma in lists of three or more items
 
 ### Code
@@ -17,6 +17,7 @@ gdfinder is a directory for finding freelance graphic designers. It is built as 
 - No unused variables or dead code
 - UUIDs generated with `crypto.randomUUID()`
 - Prioritise security, performance, and simplicity (in that order)
+- Ensure linting is configured and used
 
 ### Cloudflare Workers / D1
 - All DB access via the `DB` binding defined in `wrangler.toml`

@@ -587,7 +587,7 @@ const HTML_TEMPLATE = `<!DOCTYPE html>
 
         // Step 2: verify OTP
         async function verifyOtp() {
-            const code = document.getElementById('form-code').value.replace(/\D/g, '');
+            const code = document.getElementById('form-code').value.replace(/\\D/g, '');
             const email = document.getElementById('form-email').value.trim();
             const errorEl = document.getElementById('step2-error');
             errorEl.style.display = 'none';
@@ -781,7 +781,7 @@ const HTML_TEMPLATE = `<!DOCTYPE html>
 // Helpers
 // ---------------------------------------------------------------------------
 
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 /** Cryptographically secure 9-digit OTP */
 function generateOtp() {
@@ -809,7 +809,7 @@ async function hashValue(input) {
  */
 async function sendEmail(env, to, code) {
     if (!env.EMAIL) {
-        console.warn(`[DEV] OTP for ${to}: ${code} — bind EMAIL (send_email) to enable real email delivery.`);
+        console.warn(`[DEV] OTP for ${to}: ${code} - bind EMAIL (send_email) to enable real email delivery.`);
         return;
     }
 
@@ -847,12 +847,47 @@ function jsonError(message, status = 400) {
     });
 }
 
+/** Return a Basic Auth challenge response. */
+function basicAuthRequired() {
+    return new Response('Authentication required.', {
+        status: 401,
+        headers: {
+            'WWW-Authenticate': 'Basic realm="GDFinder", charset="UTF-8"',
+            'Cache-Control': 'no-store'
+        }
+    });
+}
+
+/** Check request credentials against the Worker secret bindings. */
+function hasValidBasicAuth(request, env) {
+    const authorization = request.headers.get('Authorization');
+    if (!authorization?.startsWith('Basic ')) return false;
+
+    try {
+        const credentials = atob(authorization.slice(6));
+        const separator = credentials.indexOf(':');
+        if (separator === -1) return false;
+
+        const username = credentials.slice(0, separator);
+        const password = credentials.slice(separator + 1);
+
+        return username === env.BASIC_AUTH_USERNAME
+            && password === env.BASIC_AUTH_PASSWORD;
+    } catch {
+        return false;
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Worker entry point
 // ---------------------------------------------------------------------------
 
 export default {
     async fetch(request, env, ctx) {
+        if (env.BASIC_AUTH_ENABLED === 'true' && !hasValidBasicAuth(request, env)) {
+            return basicAuthRequired();
+        }
+
         const url = new URL(request.url);
 
         // ── Serve HTML shell ────────────────────────────────────────────────

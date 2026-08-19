@@ -10,5 +10,10 @@ database_id = "5e6f9939-2a18-4858-b40d-4b255d591b6d" # Replace after: wrangler d
 [[send_email]]
 name = "EMAIL"
 
-# Non-secret vars go here.
+# Required secret bindings, configured in the Cloudflare dashboard:
+# BASIC_AUTH_USERNAME
+# BASIC_AUTH_PASSWORD
+#
+# Set to "false" and deploy to remove the temporary site-wide Basic Auth gate.
 [vars]
+BASIC_AUTH_ENABLED = "true"

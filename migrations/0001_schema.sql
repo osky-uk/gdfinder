@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS designers (
 );
 
 -- One vote per (designer, voter) pair, enforced by the UNIQUE constraint.
--- voter_email_hash is SHA-256 of the voter's email — never store plaintext.
+-- voter_email_hash is SHA-256 of the voter's email - never store plaintext.
 -- upvotes/downvotes on designers are denormalised counts; keep them in sync
 -- in the application when inserting/updating/deleting rows here.
 -- Note: REFERENCES enforcement requires `PRAGMA foreign_keys = ON` per connection.

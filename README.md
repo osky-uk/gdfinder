@@ -1,21 +1,34 @@
 # gdfinder
-Graphic Design Finder — a directory for finding freelance graphic designers, built on Cloudflare Workers + D1.
+Graphic Design Finder - a directory for finding freelance graphic designers, built on Cloudflare Workers + D1.
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (v18+)
+- [nvm](https://github.com/nvm-sh/nvm) (Node Version Manager)
 - A [Cloudflare account](https://dash.cloudflare.com/sign-up) (free tier is fine)
-- Wrangler CLI (installed automatically via `npm install`)
+- Wrangler CLI (installed automatically via `npm ci`)
 
 ## Setup
 
+This project uses Node.js 24.19.0 LTS and npm 11.17.0. The required versions are pinned in `.nvmrc` and enforced by npm.
+
+From the project root, install and use the pinned Node.js version:
+
 ```bash
-npm install
+nvm install
+nvm use
 ```
+
+Confirm that `node --version` reports `v24.19.0`, then install the locked dependencies:
+
+```bash
+npm ci
+```
+
+Run `nvm use` whenever you open a new shell in the project. After the first setup, it switches to the version specified in `.nvmrc` without reinstalling it.
 
 ## Local development
 
-The app uses Cloudflare D1 (SQLite). Wrangler handles a local replica automatically — no extra database setup needed.
+The app uses Cloudflare D1 (SQLite). Wrangler handles a local replica automatically - no extra database setup needed.
 
 **1. Apply migrations to the local database:**
 
@@ -36,7 +49,7 @@ Wrangler will start a local server (usually at `http://localhost:8787`) with hot
 Any environment secrets (e.g. `RESEND_API_KEY`) must be set separately from `wrangler.toml`. For local dev, create a `.dev.vars` file in the project root:
 
 ```ini
-# .dev.vars  — local only, do NOT commit
+# .dev.vars - local only, do NOT commit
 RESEND_API_KEY=your_key_here
 ```
 
@@ -63,3 +76,11 @@ npm run deploy
 ```
 
 This builds and publishes the Worker to Cloudflare. Make sure production migrations have been applied first (`npm run db:migrate`).
+
+## Quality checks
+
+Run the linter before committing changes:
+
+```bash
+npm run lint
+```

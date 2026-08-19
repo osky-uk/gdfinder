@@ -19,7 +19,8 @@ const ISO_COUNTRY_CODES = [
     'VN', 'VU', 'WF', 'WS', 'YE', 'YT', 'ZA', 'ZM', 'ZW'
 ];
 
-const HTML_TEMPLATE = `<!DOCTYPE html>
+function renderHtml(detectedCountryCode) {
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -468,6 +469,7 @@ const HTML_TEMPLATE = `<!DOCTYPE html>
         const phoneGroup = document.getElementById('form-phone-group');
         const phoneInput = document.getElementById('form-phone');
         const countryCodes = ${JSON.stringify(ISO_COUNTRY_CODES)};
+        const detectedCountryCode = ${JSON.stringify(detectedCountryCode)};
         const countryDisplayNames = typeof Intl.DisplayNames === 'function'
             ? new Intl.DisplayNames(['en-GB'], { type: 'region' })
             : null;
@@ -526,7 +528,13 @@ const HTML_TEMPLATE = `<!DOCTYPE html>
             const aiParam = params.get('ai');
             if (['0', '1', '2'].includes(aiParam)) aiSlider.value = aiParam;
             const countryParam = (params.get('country') || '').toUpperCase();
-            if (countryCodes.includes(countryParam)) locationFilter.value = countryParam;
+            if (countryCodes.includes(countryParam)) {
+                locationFilter.value = countryParam;
+            } else if (detectedCountryCode && [...locationFilter.options].some(option => option.value === detectedCountryCode)) {
+                locationFilter.value = detectedCountryCode;
+                params.set('country', detectedCountryCode);
+                window.history.replaceState({}, '', '?' + params.toString());
+            }
             if (params.has('sort')) sortOrder.value = params.get('sort');
             updateSliderUI();
         }
@@ -954,6 +962,7 @@ const HTML_TEMPLATE = `<!DOCTYPE html>
     </script>
 </body>
 </html>`;
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -1070,7 +1079,12 @@ export default {
 
         // ── Serve HTML shell ────────────────────────────────────────────────
         if (request.method === 'GET' && url.pathname === '/') {
-            return new Response(HTML_TEMPLATE, {
+            const countryHeader = request.headers.get('cf-ipcountry');
+            const normalisedCountryHeader = countryHeader?.trim().toUpperCase() || '';
+            const detectedCountryCode = ISO_COUNTRY_CODES.includes(normalisedCountryHeader)
+                ? normalisedCountryHeader
+                : '';
+            return new Response(renderHtml(detectedCountryCode), {
                 headers: { 'Content-Type': 'text/html; charset=utf-8' }
             });
         }

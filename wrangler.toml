@@ -5,15 +5,25 @@ compatibility_date = "2024-09-23"
 [[d1_databases]]
 binding = "DB"
 database_name = "gdfinder"
-database_id = "5e6f9939-2a18-4858-b40d-4b255d591b6d" # Replace after: wrangler d1 create gdfinder
+database_id = "5e6f9939-2a18-4858-b40d-4b255d591b6d"
 
 [[send_email]]
 name = "EMAIL"
 
-# Required secret bindings, configured in the Cloudflare dashboard:
-# BASIC_AUTH_USERNAME
-# BASIC_AUTH_PASSWORD
-#
-# Set to "false" and deploy to remove the temporary site-wide Basic Auth gate.
 [vars]
 BASIC_AUTH_ENABLED = "true"
+
+[env.preview]
+name = "gdfinder-preview"
+preview_urls = true
+
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "gdfinder-preview"
+database_id = "90bda7a0-9508-4fab-b712-8d23d0908070"
+
+[[env.preview.send_email]]
+name = "EMAIL"
+
+[env.preview.vars]
+BASIC_AUTH_ENABLED = "false"

@@ -44,21 +44,6 @@ npm run dev
 
 Wrangler will start a local server (usually at `http://localhost:8787`) with hot-reload. The local D1 database is stored in `.wrangler/state/` and is gitignored.
 
-## Secrets
-
-Any environment secrets (e.g. `RESEND_API_KEY`) must be set separately from `wrangler.toml`. For local dev, create a `.dev.vars` file in the project root:
-
-```ini
-# .dev.vars - local only, do NOT commit
-RESEND_API_KEY=your_key_here
-```
-
-For production, use:
-
-```bash
-wrangler secret put RESEND_API_KEY
-```
-
 ## Database
 
 | Command | Description |

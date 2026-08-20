@@ -107,24 +107,30 @@ function renderHtml(detectedCountryCode) {
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
 
         /* Cards */
-        .card { background: var(--surface-color); border-radius: 20px; padding: 22px; box-shadow: var(--shadow-sm); border: 1px solid rgba(222, 223, 214, 0.9); transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; display: flex; flex-direction: column; gap: 16px; position: relative; min-height: 280px; }
+        .card { background: var(--surface-color); border-radius: 20px; padding: 22px; box-shadow: var(--shadow-sm); border: 1px solid rgba(222, 223, 214, 0.9); transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; display: flex; flex-direction: column; gap: 14px; position: relative; }
         .card:hover { transform: translateY(-3px); border-color: #cfd2c7; box-shadow: 0 18px 40px rgba(31, 42, 37, 0.09); }
-        .card-header { display: flex; gap: 14px; align-items: center; padding-right: 28px; }
+        .card-header { display: flex; gap: 14px; align-items: center; }
+        .avatar-button, .name-button { appearance: none; border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; text-align: left; }
+        .avatar-button { display: flex; flex-shrink: 0; border-radius: 16px; }
+        .avatar-button:hover .avatar-img, .avatar-button:hover .avatar { box-shadow: 0 0 0 3px var(--accent-soft); }
         .avatar { width: 56px; height: 56px; border-radius: 16px; display: flex; flex-shrink: 0; align-items: center; justify-content: center; font-family: 'Manrope', sans-serif; font-size: 1.08rem; font-weight: 800; color: var(--surface-color); text-transform: uppercase; }
-        .info { min-width: 0; }
-        .info h2 { font-family: 'Manrope', sans-serif; font-size: 1.12rem; color: var(--text-main); line-height: 1.25; margin-bottom: 4px; letter-spacing: -0.02em; }
-        .location { font-size: 0.82rem; color: var(--text-light); display: flex; align-items: center; gap: 5px; }
-        .stats { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border-color); font-size: 0.86rem; }
-        .rating { font-weight: 700; color: #9a6519; display: flex; align-items: center; gap: 5px; }
-        .turnaround { color: var(--text-light); font-weight: 500; font-size: 0.82rem; }
-        .categories { display: flex; flex-wrap: wrap; gap: 7px; }
-        .tag { background: var(--surface-muted); border: 1px solid transparent; color: #445149; padding: 5px 9px; border-radius: 7px; font-size: 0.75rem; font-weight: 600; }
-        .language-tag { font-size: 0.8rem; color: var(--text-light); }
-
-        .ai-status { align-self: flex-start; display: inline-block; padding: 5px 9px; border-radius: 7px; font-size: 0.73rem; font-weight: 600; text-align: center; }
-        .ai-0 { background: #e1efe5; color: #346449; }
-        .ai-1 { background: #f6ead2; color: #7a571f; }
-        .ai-2 { background: #f6e2dd; color: #884837; }
+        .info { min-width: 0; display: flex; flex-direction: column; gap: 7px; }
+        .card-name { font-size: inherit; line-height: 1; }
+        .name-button { font-family: 'Manrope', sans-serif; font-size: 1.12rem; font-weight: 700; color: var(--text-main); line-height: 1.25; letter-spacing: -0.02em; }
+        .name-button:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 3px; }
+        .card-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+        .card-badge { border-radius: 999px; padding: 4px 8px; font-size: 0.7rem; font-weight: 700; line-height: 1.2; }
+        .listing-type { background: var(--surface-muted); color: #445149; }
+        .availability-available { background: #e1efe5; color: #346449; }
+        .availability-busy { background: #f6ead2; color: #7a571f; }
+        .availability-unavailable { background: #f6e2dd; color: #884837; }
+        .card-bio { color: var(--text-main); font-size: 0.9rem; line-height: 1.55; }
+        .location { font-size: 0.82rem; color: var(--text-light); display: flex; align-items: center; gap: 6px; }
+        .location svg { width: 15px; height: 15px; flex-shrink: 0; }
+        .social-links { display: flex; flex-wrap: wrap; gap: 7px; list-style: none; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--border-color); }
+        .social-link { width: 34px; height: 34px; border: 1px solid var(--border-color); border-radius: 9px; display: grid; place-items: center; color: var(--text-light); background: var(--surface-color); transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease; }
+        .social-link:hover { color: var(--accent-hover); border-color: #c8b6ad; background: var(--accent-soft); transform: translateY(-1px); }
+        .social-link svg { width: 18px; height: 18px; }
 
         .btn-main { width: 100%; padding: 13px 18px; border: none; border-radius: 12px; background: var(--accent-primary); color: white; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; margin-top: 10px; }
         .btn-main:hover:not(:disabled) { background: var(--accent-hover); box-shadow: 0 8px 18px rgba(206, 88, 60, 0.2); transform: translateY(-1px); }
@@ -170,9 +176,26 @@ function renderHtml(detectedCountryCode) {
         .btn-danger { width: 100%; padding: 11px 16px; border: 1px solid #d5a095; border-radius: 12px; background: transparent; color: #8d3d30; font-size: 0.92rem; font-weight: 600; cursor: pointer; transition: background 0.2s ease; margin-top: 8px; }
         .btn-danger:hover { background: #f7e2dd; }
         .btn-danger:disabled { opacity: 0.6; cursor: not-allowed; }
-        .edit-btn { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: 1px solid var(--border-color); background: var(--surface-color); border-radius: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-light); font-size: 0.8rem; transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease; padding: 0; line-height: 1; }
-        .edit-btn:hover { background: var(--surface-muted); border-color: #b9beb2; color: var(--text-main); }
         .avatar-img { width: 56px; height: 56px; border-radius: 16px; object-fit: cover; flex-shrink: 0; }
+        .profile-modal-content { max-width: 680px; }
+        .profile-header { display: flex; gap: 18px; align-items: center; padding-right: 42px; }
+        .profile-avatar, .profile-avatar-img { width: 82px; height: 82px; border-radius: 22px; }
+        .profile-avatar { font-size: 1.45rem; }
+        .profile-heading { min-width: 0; }
+        .profile-heading h2 { font-family: 'Manrope', sans-serif; font-size: clamp(1.65rem, 5vw, 2.15rem); line-height: 1.15; letter-spacing: -0.045em; margin-bottom: 9px; }
+        .profile-bio { font-size: 0.98rem; line-height: 1.65; margin: 22px 0 0; }
+        .profile-location { margin-top: 12px; }
+        .profile-section { border-top: 1px solid var(--border-color); margin-top: 24px; padding-top: 20px; }
+        .profile-section h3 { font-family: 'Manrope', sans-serif; font-size: 0.93rem; letter-spacing: -0.01em; margin-bottom: 13px; }
+        .profile-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; }
+        .profile-detail { min-width: 0; }
+        .profile-detail dt { color: var(--text-light); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 3px; text-transform: uppercase; }
+        .profile-detail dd { overflow-wrap: anywhere; }
+        .profile-contact { display: flex; flex-wrap: wrap; gap: 9px 18px; }
+        .profile-contact a { color: var(--accent-hover); font-weight: 600; overflow-wrap: anywhere; }
+        .profile-empty { color: var(--text-light); font-size: 0.9rem; }
+        .profile-social-links { border-top: 0; margin-top: 0; padding-top: 0; }
+        .profile-edit-button { margin-top: 24px; }
         .form-email-display { background: var(--surface-muted); border: 1px solid var(--border-color); border-radius: 10px; padding: 8px 14px; font-size: 0.86rem; color: var(--text-light); font-weight: 600; margin-bottom: 18px; text-align: center; }
         .agreement { margin: 15px 0 20px; display: flex; flex-direction: column; gap: 10px; }
         .agreement label { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 0.95rem; }
@@ -202,6 +225,8 @@ function renderHtml(detectedCountryCode) {
             .grid { grid-template-columns: 1fr; }
             .modal-overlay { align-items: flex-end; padding: 0; }
             .modal-content { border-radius: 22px 22px 0 0; max-height: 92vh; padding: 28px 20px calc(24px + env(safe-area-inset-bottom)); }
+            .profile-avatar, .profile-avatar-img { width: 68px; height: 68px; border-radius: 18px; }
+            .profile-detail-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 480px) {
@@ -220,7 +245,7 @@ function renderHtml(detectedCountryCode) {
 
     <header>
         <h1>GD<span>Finder</span></h1>
-        <p>Find an independent graphic designer whose style, skills, and process fit your project.</p>
+        <p>Find a graphic designer whose style, skills, and process fit your project.</p>
         <div class="search-container">
             <input type="search" id="searchInput" class="search-bar" placeholder="Search by name or specialism" aria-label="Search designers">
         </div>
@@ -264,6 +289,14 @@ function renderHtml(detectedCountryCode) {
     <footer>
         <button class="footer-btn" onclick="openModal()">Join the directory</button>
     </footer>
+
+    <!-- Full designer profile modal -->
+    <div class="modal-overlay" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profile-modal-title">
+        <div class="modal-content profile-modal-content">
+            <button type="button" class="modal-close" id="profile-modal-close" onclick="closeProfileModal()" aria-label="Close designer profile">&times;</button>
+            <div id="profileDetails"></div>
+        </div>
+    </div>
 
     <!-- Additional filters modal -->
     <div class="modal-overlay" id="filtersModal" role="dialog" aria-modal="true" aria-labelledby="filters-title">
@@ -447,9 +480,7 @@ function renderHtml(detectedCountryCode) {
     <script>
         // Escape user-supplied strings before inserting into innerHTML
         function escapeHtml(str) {
-            const d = document.createElement('div');
-            d.textContent = String(str);
-            return d.innerHTML;
+            return String(str).replace(/[&<>"']/g, char => '&#' + char.charCodeAt(0) + ';');
         }
 
         const searchInput = document.getElementById('searchInput');
@@ -468,6 +499,8 @@ function renderHtml(detectedCountryCode) {
         const phoneVisibleCheckbox = document.getElementById('form-phone-visible');
         const phoneGroup = document.getElementById('form-phone-group');
         const phoneInput = document.getElementById('form-phone');
+        const profileModal = document.getElementById('profileModal');
+        const profileDetails = document.getElementById('profileDetails');
         const countryCodes = ${JSON.stringify(ISO_COUNTRY_CODES)};
         const detectedCountryCode = ${JSON.stringify(detectedCountryCode)};
         const countryDisplayNames = typeof Intl.DisplayNames === 'function'
@@ -485,11 +518,52 @@ function renderHtml(detectedCountryCode) {
             { text: 'Include all designers, including those who create AI-generated work.', cls: 'msg-red' }
         ];
 
+        const listingTypeLabels = {
+            freelancer: 'Freelancer',
+            sole_trader: 'Sole trader',
+            company: 'Company',
+            agency: 'Agency',
+            other: 'Other'
+        };
+        const availabilityLabels = {
+            available: 'Available',
+            busy: 'Busy',
+            unavailable: 'Unavailable'
+        };
+        const priceRangeLabels = {
+            budget: 'Budget',
+            mid: 'Mid-range',
+            premium: 'Premium',
+            enterprise: 'Enterprise'
+        };
+        const socialIcons = {
+            website: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>',
+            instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>',
+            dribbble: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7 4.6c4.2 4.6 6.5 9.4 7.5 14.6M3.2 10.2c5.7.1 10.8-1.3 14.4-4.1M6 18.8c2.8-4.2 7.3-6.2 14.7-5.2"/></svg>',
+            behance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 6.5h5a3 3 0 0 1 0 6h-5zM3.5 12.5h5.7a3 3 0 0 1 0 6H3.5zM14 9h6M14 14.5h7a4 4 0 1 0-1.2 2.8"/></svg>',
+            bluesky: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 11c-1.1-2.2-4-5.2-6.6-7C3 2.3 2 2.6 2 5.1c0 .5.3 4.2.5 4.8.7 2.2 3.2 2.9 5.5 2.5-4.1.7-7.7 2.4-3 7.5 5.2 5.4 7.1-1.2 7-3.8-.1 2.6 1.8 9.2 7 3.8 4.7-5.1 1.1-6.8-3-7.5 2.3.4 4.8-.3 5.5-2.5.2-.6.5-4.3.5-4.8 0-2.5-1-2.8-3.4-1.1-2.6 1.8-5.5 4.8-6.6 7Z"/></svg>',
+            twitter: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 4l14 16M19 4 5 20"/></svg>',
+            facebook: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 8h4V3h-4c-4 0-6 2.4-6 6v3H4v5h4v7h5v-7h4l1-5h-5V9c0-.7.3-1 1-1Z"/></svg>',
+            youtube: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M21 7.2a2.7 2.7 0 0 0-1.9-1.9C17.4 4.8 12 4.8 12 4.8s-5.4 0-7.1.5A2.7 2.7 0 0 0 3 7.2 28 28 0 0 0 2.5 12 28 28 0 0 0 3 16.8a2.7 2.7 0 0 0 1.9 1.9c1.7.5 7.1.5 7.1.5s5.4 0 7.1-.5a2.7 2.7 0 0 0 1.9-1.9 28 28 0 0 0 .5-4.8 28 28 0 0 0-.5-4.8Z"/><path d="m10 9 5 3-5 3Z" fill="currentColor" stroke="none"/></svg>'
+        };
+        const socialProfiles = [
+            { key: 'website', label: 'Website' },
+            { key: 'instagram', label: 'Instagram', baseUrl: 'https://www.instagram.com/' },
+            { key: 'dribbble', label: 'Dribbble', baseUrl: 'https://dribbble.com/' },
+            { key: 'behance', label: 'Behance', baseUrl: 'https://www.behance.net/' },
+            { key: 'bluesky', label: 'Bluesky', baseUrl: 'https://bsky.app/profile/' },
+            { key: 'twitter', label: 'X', baseUrl: 'https://x.com/' },
+            { key: 'facebook', label: 'Facebook', baseUrl: 'https://www.facebook.com/' },
+            { key: 'youtube', label: 'YouTube' }
+        ];
+
         let sessionId = null;
         let editingDesignerId = null;
         let pendingEditDesignerId = null;
         let aiValueBeforeModal = '1';
         let sendingOtp = false;
+        let profileModalTrigger = null;
+        const designersById = new Map();
 
         function getCountryName(code) {
             return countryDisplayNames ? countryDisplayNames.of(code) || code : code;
@@ -561,9 +635,148 @@ function renderHtml(detectedCountryCode) {
 
         function getInitials(name) { return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2); }
         function getAiStatusLabel(level) {
-            if (level === 0) return { text: 'No AI used', cls: 'ai-0' };
-            if (level === 1) return { text: 'AI-assisted', cls: 'ai-1' };
-            return { text: 'AI-generated', cls: 'ai-2' };
+            if (level === 0) return 'No AI used';
+            if (level === 1) return 'AI-assisted';
+            return 'AI-generated';
+        }
+
+        function normaliseExternalUrl(value, baseUrl = '') {
+            const input = String(value || '').trim();
+            if (!input) return null;
+
+            let candidate = input;
+            const lowerCandidate = candidate.toLowerCase();
+            const hasWebProtocol = lowerCandidate.startsWith('http://') || lowerCandidate.startsWith('https://');
+            if (!hasWebProtocol) {
+                const knownDomains = ['instagram.com', 'www.instagram.com', 'dribbble.com', 'behance.net', 'www.behance.net', 'bsky.app', 'twitter.com', 'x.com', 'facebook.com', 'www.facebook.com', 'youtube.com', 'www.youtube.com', 'youtu.be'];
+                const knownProfileUrl = knownDomains.some(domain => lowerCandidate === domain || lowerCandidate.startsWith(domain + '/'));
+                let profilePath = candidate;
+                while (profilePath.startsWith('/') || profilePath.startsWith('@')) profilePath = profilePath.slice(1);
+                candidate = knownProfileUrl || !baseUrl ? 'https://' + profilePath : baseUrl + profilePath;
+            }
+
+            try {
+                const parsed = new URL(candidate);
+                return ['http:', 'https:'].includes(parsed.protocol) ? parsed.href : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function getSocialLinks(designer) {
+            return socialProfiles.map(profile => ({
+                ...profile,
+                url: normaliseExternalUrl(designer[profile.key], profile.baseUrl)
+            })).filter(profile => profile.url);
+        }
+
+        function renderSocialLinks(designer, extraClass = '') {
+            const links = getSocialLinks(designer);
+            if (links.length === 0) return '';
+
+            const name = escapeHtml(designer.name);
+            return \`<ul class="social-links \${extraClass}" aria-label="Links and social profiles">\${links.map(link => \`
+                <li>
+                    <a class="social-link" href="\${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer" title="\${escapeHtml(link.label)}" aria-label="Visit \${name} on \${escapeHtml(link.label)}">
+                        \${socialIcons[link.key]}
+                    </a>
+                </li>
+            \`).join('')}</ul>\`;
+        }
+
+        function getAvatarUrl(designer) {
+            const profileImageUrl = normaliseExternalUrl(designer.profileImageUrl);
+            if (profileImageUrl) return profileImageUrl;
+            if (/^[a-f0-9]{32,64}$/i.test(designer.gravatarHash || '')) {
+                return 'https://www.gravatar.com/avatar/' + designer.gravatarHash + '?d=404&s=192';
+            }
+            return null;
+        }
+
+        function getAvatarColour(designer) {
+            return /^#[a-f0-9]{6}$/i.test(designer.avatarColor || '') ? designer.avatarColor : '#69736d';
+        }
+
+        function renderAvatar(designer, isProfile = false) {
+            const avatarUrl = getAvatarUrl(designer);
+            const imageClass = isProfile ? 'avatar-img profile-avatar-img' : 'avatar-img';
+            const fallbackClass = isProfile ? 'avatar profile-avatar' : 'avatar';
+            const fallback = \`<span class="\${fallbackClass}" style="background-color:\${getAvatarColour(designer)}\${avatarUrl ? ';display:none' : ''}">\${escapeHtml(getInitials(designer.name))}</span>\`;
+            if (!avatarUrl) return fallback;
+
+            return \`<span style="display:flex;flex-shrink:0"><img class="\${imageClass}" src="\${escapeHtml(avatarUrl)}" alt="" referrerpolicy="no-referrer" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">\${fallback}</span>\`;
+        }
+
+        function renderLocation(designer, extraClass = '') {
+            const location = designer.city + (designer.countryCode ? ', ' + getCountryName(designer.countryCode) : '');
+            return \`<div class="location \${extraClass}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>\${escapeHtml(location)}</span></div>\`;
+        }
+
+        function renderDetailGrid(rows) {
+            return \`<dl class="profile-detail-grid">\${rows.map(([label, value]) => \`
+                <div class="profile-detail">
+                    <dt>\${escapeHtml(label)}</dt>
+                    <dd>\${escapeHtml(value)}</dd>
+                </div>
+            \`).join('')}</dl>\`;
+        }
+
+        function renderProfileDetails(designer) {
+            const listingType = listingTypeLabels[designer.listingType] || listingTypeLabels.other;
+            const availability = availabilityLabels[designer.availability] || availabilityLabels.unavailable;
+            const availabilityClass = availabilityLabels[designer.availability] ? designer.availability : 'unavailable';
+            const aiStatus = getAiStatusLabel(designer.aiLevel);
+            const turnaround = designer.turnaroundDays === 1 ? '1 day' : designer.turnaroundDays + ' days';
+            const contactLinks = [];
+            if (designer.email) {
+                contactLinks.push(\`<a href="mailto:\${escapeHtml(designer.email)}">Email: \${escapeHtml(designer.email)}</a>\`);
+            }
+            if (designer.phoneNumber) {
+                const phoneHref = designer.phoneNumber.replace(/[^0-9+]/g, '');
+                contactLinks.push(\`<a href="tel:\${escapeHtml(phoneHref)}">Phone: \${escapeHtml(designer.phoneNumber)}</a>\`);
+            }
+
+            const bio = designer.bio ? \`<p class="profile-bio">\${escapeHtml(designer.bio)}</p>\` : '';
+            const socialLinks = renderSocialLinks(designer, 'profile-social-links');
+            return \`
+                <div class="profile-header">
+                    \${renderAvatar(designer, true)}
+                    <div class="profile-heading">
+                        <h2 id="profile-modal-title">\${escapeHtml(designer.name)}</h2>
+                        <div class="card-meta">
+                            <span class="card-badge availability-\${availabilityClass}">\${availability}</span>
+                            <span class="card-badge listing-type">\${listingType}</span>
+                        </div>
+                    </div>
+                </div>
+                \${bio}
+                \${renderLocation(designer, 'profile-location')}
+                <section class="profile-section">
+                    <h3>Work details</h3>
+                    \${renderDetailGrid([
+                        ['Specialisms', designer.categories.length ? designer.categories.join(', ') : 'Not specified'],
+                        ['Languages', designer.languages.length ? designer.languages.join(', ') : 'Not specified'],
+                        ['Average turnaround', turnaround],
+                        ['AI use', aiStatus],
+                        ['Community score', String(designer.score)],
+                        ...(designer.timezone ? [['Time zone', designer.timezone]] : [])
+                    ])}
+                </section>
+                <section class="profile-section">
+                    <h3>Pricing and clients</h3>
+                    \${renderDetailGrid([
+                        ['Price range', priceRangeLabels[designer.priceRange] || 'Not specified'],
+                        ['Pricing structure', designer.pricingStructure || 'Not specified'],
+                        ['Preferred clients', designer.preferredClient || 'Not specified']
+                    ])}
+                </section>
+                <section class="profile-section">
+                    <h3>Contact</h3>
+                    \${contactLinks.length ? \`<div class="profile-contact">\${contactLinks.join('')}</div>\` : '<p class="profile-empty">No direct contact details are shown.</p>'}
+                </section>
+                \${socialLinks ? \`<section class="profile-section"><h3>Links and social profiles</h3>\${socialLinks}</section>\` : ''}
+                <button type="button" class="btn-secondary profile-edit-button" onclick="editProfileListing('\${escapeHtml(designer.id)}')">Edit this listing</button>
+            \`;
         }
 
         // Fetch filtered data directly using query strings (Cached by CDN)
@@ -577,38 +790,40 @@ function renderHtml(detectedCountryCode) {
                 resultsCount.textContent = \`\${data.length} designer\${data.length !== 1 ? 's' : ''} found\`;
                 
                 if (data.length === 0) {
+                    designersById.clear();
                     designersGrid.innerHTML = '<div class="empty-state">No designers match your filters. Try broadening your search.</div>';
                     return;
                 }
 
+                designersById.clear();
+                data.forEach(designer => designersById.set(designer.id, designer));
                 designersGrid.innerHTML = data.map(designer => {
-                    const aiStatus = getAiStatusLabel(designer.aiLevel);
-                    const cats = designer.categories.map(c => \`<span class="tag">\${escapeHtml(c)}</span>\`).join('');
-                    const location = designer.city + (designer.countryCode ? ', ' + designer.countryCode : '');
-                    const avatarHtml = designer.gravatarHash
-                        ? \`<div style="flex-shrink:0"><img class="avatar-img" src="https://www.gravatar.com/avatar/\${escapeHtml(designer.gravatarHash)}?d=404&s=120" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="avatar" style="background-color:\${escapeHtml(designer.avatarColor)};display:none">\${escapeHtml(getInitials(designer.name))}</div></div>\`
-                        : \`<div class="avatar" style="background-color:\${escapeHtml(designer.avatarColor)}">\${escapeHtml(getInitials(designer.name))}</div>\`;
+                    const listingType = listingTypeLabels[designer.listingType] || listingTypeLabels.other;
+                    const availability = availabilityLabels[designer.availability] || availabilityLabels.unavailable;
+                    const availabilityClass = availabilityLabels[designer.availability] ? designer.availability : 'unavailable';
+                    const bio = designer.bio ? \`<p class="card-bio">\${escapeHtml(designer.bio)}</p>\` : '';
                     return \`
-                        <div class="card">
-                            <button class="edit-btn" onclick="openModalForEdit('\${escapeHtml(designer.id)}')" title="Edit listing" aria-label="Edit \${escapeHtml(designer.name)}"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg></button>
+                        <article class="card">
                             <div class="card-header">
-                                \${avatarHtml}
+                                <button type="button" class="avatar-button" onclick="openProfile('\${escapeHtml(designer.id)}', this)" aria-label="View full profile for \${escapeHtml(designer.name)}">
+                                    \${renderAvatar(designer)}
+                                </button>
                                 <div class="info">
-                                    <h2>\${escapeHtml(designer.name)}</h2>
-                                    <div class="location">\${escapeHtml(location)}</div>
+                                    <h2 class="card-name"><button type="button" class="name-button" onclick="openProfile('\${escapeHtml(designer.id)}', this)">\${escapeHtml(designer.name)}</button></h2>
+                                    <div class="card-meta">
+                                        <span class="card-badge availability-\${availabilityClass}">\${availability}</span>
+                                        <span class="card-badge listing-type">\${listingType}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="categories">\${cats}</div>
-                            <div class="language-tag"><strong>Languages:</strong> \${escapeHtml(designer.languages.join(', '))}</div>
-                            <div class="stats">
-                                <div class="rating">★ \${designer.upvotes}</div>
-                                <div class="turnaround">\${designer.turnaroundDays} \${designer.turnaroundDays === 1 ? 'day' : 'days'} turnaround</div>
-                            </div>
-                            <div class="ai-status \${aiStatus.cls}">\${aiStatus.text}</div>
-                        </div>
+                            \${bio}
+                            \${renderLocation(designer)}
+                            \${renderSocialLinks(designer)}
+                        </article>
                     \`;
                 }).join('');
             } catch (err) {
+                designersById.clear();
                 designersGrid.innerHTML = '<div class="empty-state">We could not load the directory. Please refresh the page.</div>';
             }
         }
@@ -631,6 +846,27 @@ function renderHtml(detectedCountryCode) {
         function syncModalOpenState() {
             const hasOpenModal = document.querySelector('.modal-overlay.active');
             document.body.classList.toggle('modal-open', !!hasOpenModal);
+        }
+        function openProfile(designerId, trigger) {
+            const designer = designersById.get(designerId);
+            if (!designer) return;
+
+            profileModalTrigger = trigger;
+            profileDetails.innerHTML = renderProfileDetails(designer);
+            profileModal.classList.add('active');
+            syncModalOpenState();
+            requestAnimationFrame(() => document.getElementById('profile-modal-close').focus());
+        }
+        function closeProfileModal(restoreFocus = true) {
+            profileModal.classList.remove('active');
+            profileDetails.innerHTML = '';
+            syncModalOpenState();
+            if (restoreFocus && profileModalTrigger?.isConnected) profileModalTrigger.focus();
+            profileModalTrigger = null;
+        }
+        function editProfileListing(designerId) {
+            closeProfileModal(false);
+            openModalForEdit(designerId);
         }
         function openFiltersModal() {
             aiValueBeforeModal = aiSlider.value;
@@ -946,6 +1182,7 @@ function renderHtml(detectedCountryCode) {
                 if (event.target !== modal) return;
                 if (modal.id === 'filtersModal') closeFiltersModal();
                 else if (modal.id === 'hideConfirmModal') cancelHide();
+                else if (modal.id === 'profileModal') closeProfileModal();
             });
         });
 
@@ -953,6 +1190,8 @@ function renderHtml(detectedCountryCode) {
             if (event.key !== 'Escape') return;
             if (document.getElementById('hideConfirmModal').classList.contains('active')) cancelHide();
             else if (document.getElementById('filtersModal').classList.contains('active')) closeFiltersModal();
+            else if (profileModal.classList.contains('active')) closeProfileModal();
+            else if (document.getElementById('designerModal').classList.contains('active')) closeModal();
         });
 
         // Boot
@@ -1098,7 +1337,9 @@ export default {
 
         // ── GET /api/designers ──────────────────────────────────────────────
         if (request.method === 'GET' && url.pathname === '/api/designers') {
-            const cacheKey = new Request(url.toString(), request);
+            const cacheUrl = new URL(url);
+            cacheUrl.searchParams.set('_response', 'profile-card-v2');
+            const cacheKey = new Request(cacheUrl.toString(), request);
             const cache = caches.default;
             const cached = await cache.match(cacheKey);
             if (cached) return cached;
@@ -1112,7 +1353,18 @@ export default {
                 const language = url.searchParams.get('language') || 'All';
                 const sort = url.searchParams.get('sort') || 'scoreDesc';
 
-                let sql = "SELECT * FROM designers WHERE status NOT IN ('suspended', 'hidden') AND ai_level <= ?";
+                let sql = `
+                    SELECT
+                        id, name, bio, listing_type, profile_image_url, availability, timezone,
+                        price_range, pricing_structure, preferred_client, city, country_code,
+                        CASE WHEN email_shown = 1 THEN email ELSE NULL END AS public_email,
+                        CASE WHEN phone_number_visible = 1 THEN phone_number ELSE NULL END AS public_phone_number,
+                        instagram, facebook, bluesky, youtube, twitter, dribbble, behance, website,
+                        languages, categories, turnaround_days, ai_level, upvotes, downvotes,
+                        avatar_color, gravatar_hash
+                    FROM designers
+                    WHERE status NOT IN ('suspended', 'hidden') AND ai_level <= ?
+                `;
                 const params = [ai];
 
                 if (country !== 'All') { sql += ' AND country_code = ?'; params.push(country); }
@@ -1137,16 +1389,33 @@ export default {
                 const formatted = results.map(row => ({
                     id: row.id,
                     name: row.name,
+                    bio: row.bio || null,
+                    listingType: row.listing_type,
+                    profileImageUrl: row.profile_image_url || null,
+                    availability: row.availability,
+                    timezone: row.timezone || null,
                     city: row.city,
                     countryCode: row.country_code,
                     languages: JSON.parse(row.languages),
                     categories: JSON.parse(row.categories),
                     turnaroundDays: row.turnaround_days,
                     aiLevel: row.ai_level,
-                    upvotes: row.upvotes || 0,
                     score: (row.upvotes || 0) - (row.downvotes || 0),
+                    priceRange: row.price_range || null,
+                    pricingStructure: row.pricing_structure || null,
+                    preferredClient: row.preferred_client || null,
+                    email: row.public_email || null,
+                    phoneNumber: row.public_phone_number || null,
+                    website: row.website || null,
+                    instagram: row.instagram || null,
+                    dribbble: row.dribbble || null,
+                    behance: row.behance || null,
+                    bluesky: row.bluesky || null,
+                    twitter: row.twitter || null,
+                    facebook: row.facebook || null,
+                    youtube: row.youtube || null,
                     avatarColor: row.avatar_color,
-                    gravatarHash: row.gravatar_hash || null,
+                    gravatarHash: row.gravatar_hash || null
                 }));
 
                 const response = new Response(JSON.stringify(formatted), {
